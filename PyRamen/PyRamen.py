@@ -98,4 +98,5 @@ print(f"Total number of records in sales data: {row_count}")
 
 # @TODO: Write out report to a text file (won't appear on the command line output)
 with open('pyramen.txt', 'w') as op_file:
-    op_file.write(str(report))
+    for key,val in report.items():
+        op_file.write(f"{key} {val}\n")
