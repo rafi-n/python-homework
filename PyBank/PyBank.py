@@ -1,8 +1,10 @@
 # import necessary libraries
 import csv
+from pathlib import Path
 
-# Initialize output file name and budget data list so that the data is accessible outside 'with' statement
-output_file = 'PyBank.txt'
+# Initialize output and input file name and budget data list so that the data is global/accessible outside 'with' statement
+output_file = Path('./PyBank.txt')
+budget_file = Path('./budget_data.csv')
 budget_data = []
 
 # define a function to find the date of any particular change given:
@@ -28,13 +30,17 @@ def date_of_pnl_change(data_set, pnl_diffs, change):
     return change_date
 
 # load data from provided csv. We know what the data looks like: 2 cols, multiple rows
-with open('budget_data.csv') as csv_file:
-    bank_data_set = csv.reader(csv_file)
-    header = next(bank_data_set)
-    
-    # We loop through each row of the dataset, we set the first column to the date
-    # and the 2nd column to the PnL as an integer
-    budget_data = [[data[0], int(data[1])] for data in bank_data_set]
+# Use try/except statement to give 'soft landing' instead of crashing if the file is not found
+try:
+    with open(budget_file) as csv_file:
+        bank_data_set = csv.reader(csv_file)
+        header = next(bank_data_set)
+
+        # We loop through each row of the dataset, we set the first column to the date
+        # and the 2nd column to the PnL as an integer
+        budget_data = [[data[0], int(data[1])] for data in bank_data_set]
+except FileNotFoundError:
+    print(f"File: {budget_file}, not found!")
 
 # The total number of months included in the dataset
 total_months = len(budget_data)

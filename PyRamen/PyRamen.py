@@ -8,13 +8,26 @@ from pathlib import Path
 # @TODO: Set file paths for menu_data.csv and sales_data.csv
 menu_filepath = Path('./Resources/menu_data.csv')
 sales_filepath = Path('./Resources/sales_data.csv')
+# create output file
+report_file = Path('./PyRamen.txt')
 
 # @TODO: Initialize list objects to hold our menu and sales data
 menu = []
 sales = []
 
+# define function to read a csv to a list
 def read_csv_to_list(input_csv_file):
+    """
+    Read a CSV file to a list
+    
+    Parameters:
+    -----------
+    input_csv_file : file
+    """
+    
     output_list = []
+    # Use try/except statement to give 'soft landing' instead of crashing
+    # if the file is not found
     try:
         with open(input_csv_file, 'r') as input_file:
             input_csv = csv.reader(input_file)
@@ -97,6 +110,6 @@ for item in sales:
 print(f"Total number of records in sales data: {row_count}")
 
 # @TODO: Write out report to a text file (won't appear on the command line output)
-with open('pyramen.txt', 'w') as op_file:
+with open(report_file, 'w') as op_file:
     for key,val in report.items():
         op_file.write(f"{key} {val}\n")
